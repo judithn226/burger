@@ -22,14 +22,27 @@ const orm = {
 
   insertOne: (tableName, cols, vals, callback) => {
     let queryStatement =
-      "INSERT TO ${tableName} (${cols.toString()}) VALUES (${printQuestionMarks(vals.length)});";
+      "INSERT INTO ${tableName} (${cols.toString()}) VALUES (${printQuestionMarks(vals.length)});";
 
-      connnection.query(queryStatement, vals (err, result) =>{
-          if (err) throw err;
-          console.log("Successfuly Added");
-          callback(result);
-      }
-  
+    connection.query(queryStatement, vals, (err, result) => {
+      if (err) throw err;
+      console.log("Successfully Added");
+      callback(result);
+    });
+  },
+
+  updateOne: (tableName, cols, vals, condition, callback) => {
+    let queryStatement =
+      "UPDATE ${tableName} SET ${col.toString()} = ? WHERE ${condition}";
+
+    connection.query(queryStatement, vals, (err, result) => {
+      if (err) throw err;
+      console.log("Successfully Updated");
+      console.log("Execiting Third Declared Callback");
+      callback(result);
+    });
+  },
+};
 
 // exporting orm object
 module.exports = orm;
